@@ -17,8 +17,8 @@ class Ability:
         ''' Return a value between 0 and the value set by self.max_damage.'''
 
         # Pick a random value between 0 and self.max_damage
-        random_value = random.randint(0,self.max_damage)
-        return random_value
+        attack_value = random.randint(0,self.max_damage)
+        return attack_value
 
 # Armour Class
 class Armour:
@@ -36,8 +36,8 @@ class Armour:
         Return a random value between 0 and the
         initialized max_block strength.
         '''
-        random_value = random.randint(0,self.max_block)
-        return random_value
+        block_value = random.randint(0,self.max_block)
+        return block_value
 
 # Hero Class
 class Hero:
@@ -55,22 +55,46 @@ class Hero:
         self.name = name
         self.starting_health = starting_health
         self.current_health = starting_health
+        self.deaths = 0
+        self.kills = 0
         
         
     def add_ability(self, ability):
         ''' Add ability to abilities list '''
         self.abilities.append(ability)
+        
+    def add_armour(self, armour):
+        '''Add armour to self.armors
+            Armour: Armour Object
+        '''
+        self.armours.append(armour)
 
         
     def attack(self):
-        ''' Return a value between 0 and the value set by self.max_damage.'''
-
-        # Pick a random value between 0 and self.max_damage
-        random_value = random.randint(0,self.max_damage)
-        return random_value
+        # start our total out at 0
+        '''Calculate the total damage from all ability attacks.
+            return: total_damage:Int
+        '''        
+        total_damage = 0
+        # loop through all of our hero's abilities
+        for ability in self.abilities:
+            # add the damage of each attack to our running total
+            total_damage += ability.attack()
+            print(f"Total Damage: {total_damage}")
+        return int(total_damage)
+        
     
-    # def defend(incoming_damage:int):
-    #     pass
+    def defend(self, incoming_damage):
+        '''Calculate the total block amount from all armor blocks.
+        return: total_block:Int
+        '''
+        total_block = 0
+        for armour in self.armours:
+            total_block += armour.block_value
+            print(f"Total Block: {total_block}")
+        return int(total_block)
+    
+    
     # def take_damage(damage):
     #     pass
     # def is_alive():
@@ -82,6 +106,7 @@ if __name__ == "__main__":
     # If you run this file from the terminal
     # this block is executed.
     ability = Ability("Debugging Ability", 20)
+    another_ability = Ability("Smarty Pants", 90)
     print(ability.name)
     print(ability.attack())
     armour = Armour("Debugging Shield", 10)
@@ -91,5 +116,6 @@ if __name__ == "__main__":
     print(my_hero.name)
     print(my_hero.current_health)
     my_hero.add_ability(ability)
-    my_hero.add_ability(ability)
+    my_hero.add_ability(another_ability)
     print(my_hero.abilities)
+    print(my_hero.attack())
