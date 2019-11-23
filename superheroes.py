@@ -28,7 +28,8 @@ class Weapon(Ability):
         # TODO: Use integer division to find half of the max_damage value
         # then return a random integer between half of max_damage and max_damage
         
-        return random.randint(self.max_damage//2, self.max_damage)
+        weapon_attack_value = random.randint(self.max_damage//2, self.max_damage)
+        return weapon_attack_value
 
 # Armour Class
 class Armour:
@@ -52,7 +53,7 @@ class Armour:
 
 # Hero Class
 class Hero:
-    def __init__(self, name, starting_health=100):
+    def __init__(self, name, starting_health=100, deaths=0, kills=0):
         '''Instance properties:
             abilities: List
             armors: List
@@ -83,7 +84,6 @@ class Hero:
         # abilities and weapons.
         self.abilities.append(weapon)
         print("Weapon Equipped")
-        
         
     def add_armour(self, armour):
         '''Add armour to self.armours
@@ -170,6 +170,84 @@ class Hero:
             self.add_death(1)
             self.add_kill(1)
             opponent.add_death(1)
+            
+class Team:
+    def __init__(self, name):
+        ''' Initialize your team with its team name and an empty list of heroes
+        '''
+        self.name = name
+        self.heroes = list()
+        self.num_kills = 0
+        
+    def add_hero(self, hero):
+        self.heroes.append(hero)
+    
+    def remove_hero(self, name):
+        '''Remove hero from heroes list.
+        If Hero isn't found return 0.
+        '''
+        foundHero = False
+        if len(self.heroes) <=0:
+            return 0
+        # loop through each hero in our list
+        for hero in self.heroes:
+            # if we find them, remove them from the list
+            if hero.name == name:
+                self.heroes.remove(hero)
+                # set our indicator to True
+                foundHero = True
+            if not foundHero:
+                return 0
+        
+    def view_all_heroes(self):
+        for hero in self.heroes:
+            print(hero.name)
+            
+    def team_attack(self, opponents):
+        """Randomly select a living hero from each team and 
+        have them fight until one or both teams have no surviving heroes."""
+        
+        living_heroes = list()
+        dead_heroes = list()
+        living_opponents = list()
+        dead_opponents = list()
+        
+        for hero in self.heroes:
+            if hero.is_alive():
+                living_heroes.append(hero)
+            
+        for hero in opponents.heroes:
+            if hero.is_alive():
+                living_opponents.append(hero)
+            
+        while len(living_heroes) > 0 and len(living_opponents) > 0:
+            random_hero = random.choice(self.heroes)
+            random_opponent = random.choice(opponents.heroes)
+            if random_hero.is_alive() and random_opponent.is_alive():
+                random_hero.fight(random_opponent)
+            while hero in living_heroes:
+                if random_hero.is_alive() == False and random_opponent.is_alive() == True:
+                    dead_opponents.append(random_opponent)
+            while hero in living_opponents:
+                if random_hero.is_alive() == True and random_opponent.is_alive() == False:
+                    dead_heroes.append(random_hero)
+            break
+            
+        
+    def revive_heroes():
+        for hero in self.heroes:
+            hero.current_health = hero.starting_health
+        
+        
+    def stats():
+        """Print team statistics"""
+        print(self.name)
+        for hero in self.heroes:
+            kd = hero.kills / hero.deaths
+            print("{} Kill/Deaths:{}".format(hero.name,kd))
+        
+        
+        
 
 if __name__ == "__main__":
     # If you run this file from the terminal
