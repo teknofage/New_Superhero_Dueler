@@ -11,7 +11,7 @@ class Ability:
         # for a specific instance of the Ability class
         self.name = name
         self.max_damage = max_damage
-        print("Ability Created")
+        
 
     def attack(self):
         ''' Return a value between 0 and the value set by self.max_damage.'''
@@ -19,6 +19,16 @@ class Ability:
         # Pick a random value between 0 and self.max_damage
         attack_value = random.randint(0,self.max_damage)
         return attack_value
+    
+class Weapon(Ability):
+    def attack(self):
+        """  This method returns a random value
+        between one half to the full attack power of the weapon.
+        """
+        # TODO: Use integer division to find half of the max_damage value
+        # then return a random integer between half of max_damage and max_damage
+        
+        return random.randint(self.max_damage//2, self.max_damage)
 
 # Armour Class
 class Armour:
@@ -29,7 +39,7 @@ class Armour:
         '''
         self.name = name
         self.max_block = max_block
-        print("Armour Created")
+        
 
     def block(self):
         '''
@@ -63,12 +73,24 @@ class Hero:
     def add_ability(self, ability):
         ''' Add ability to abilities list '''
         self.abilities.append(ability)
+        print("Ability Engaged")
+        
+    def add_weapon(self, weapon):
+        '''Add weapon to self.abilities'''
+        # TODO: This method will append the weapon object passed in as an
+        # argument to self.abilities.
+        # This means that self.abilities will be a list of
+        # abilities and weapons.
+        self.abilities.append(weapon)
+        print("Weapon Equipped")
+        
         
     def add_armour(self, armour):
         '''Add armour to self.armours
             Armour: Armour Object
         '''
         self.armours.append(armour)
+        print("Armour Equipped")
         
     def add_kill(self, num_kills):
         self.kills += num_kills
@@ -130,7 +152,7 @@ class Hero:
             if self.abilities or opponent.abilities:
                 self.take_damage(opponent.attack())
                 opponent.take_damage(self.attack())
-                # print("Not a draw")
+                print("Round One: Fight!")
             else:
                 print("Draw")
                 
@@ -174,14 +196,19 @@ if __name__ == "__main__":
     # print(hero.is_alive())
     # print(f"{hero.name}'s current health is {hero.current_health}")
     
-    hero1 = Hero("Wonder Woman")
-    hero2 = Hero("Dumbledore")
-    ability1 = Ability("Super Speed", 300)
-    ability2 = Ability("Super Eyes", 130)
-    ability3 = Ability("Wizard Wand", 80)
-    ability4 = Ability("Wizard Beard", 20)
-    hero1.add_ability(ability1)
-    hero1.add_ability(ability2)
-    hero2.add_ability(ability3)
-    hero2.add_ability(ability4)
-    hero1.fight(hero2)
+    # hero1 = Hero("Wonder Woman")
+    # hero2 = Hero("Dumbledore")
+    # ability1 = Ability("Super Speed", 300)
+    # ability2 = Ability("Super Eyes", 130)
+    # ability3 = Ability("Wizard Wand", 80)
+    # ability4 = Ability("Wizard Beard", 20)
+    # hero1.add_ability(ability1)
+    # hero1.add_ability(ability2)
+    # hero2.add_ability(ability3)
+    # hero2.add_ability(ability4)
+    # hero1.fight(hero2)
+    
+    hero = Hero("Wonder Woman")
+    weapon = Weapon("Lasso of Truth", 90)
+    hero.add_weapon(weapon)
+    print(hero.attack())
