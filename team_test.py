@@ -361,7 +361,7 @@ def test_team_attack_kills():
     team_one.add_hero(jodie)
     team_two = superheroes.Team("Two")
     athena = superheroes.Hero("Athena")
-    socks = superheroes.armour("Socks", 10)
+    socks = superheroes.Armour("Socks", 10)
     athena.add_armour(socks)
     team_two.add_hero(athena)
     assert team_one.heroes[0].kills == 0
@@ -377,7 +377,7 @@ def test_team_attack_deaths():
     team_one.add_hero(jodie)
     team_two = superheroes.Team("Two")
     athena = superheroes.Hero("Athena")
-    socks = superheroes.armour("Socks", 10)
+    socks = superheroes.Armour("Socks", 10)
     athena.add_armour(socks)
     team_two.add_hero(athena)
     assert team_two.heroes[0].deaths == 0
