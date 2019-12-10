@@ -13,9 +13,9 @@ def validator(list_of_valid_entries, input_text):
             if is_valid:
                 return entry
             else:
-                print("Invalid Input! Try again...")
+                print("Invalid Input! Try again... ")
         except:
-            print("Invalid Input! Try again...")
+            print("Invalid Input! Try again... ")
 
 def validator_num(input_text):
     is_valid = False
@@ -26,9 +26,9 @@ def validator_num(input_text):
                 is_valid = True
                 return entry
             else:
-                print("Invalid Input! Try again...")
+                print("Invalid Input! Try again... ")
         except:
-            print("Invalid Input! Try again...")
+            print("Invalid Input! Try again... ")
 
 # Ability Class
 class Ability:
@@ -106,7 +106,7 @@ class Hero:
     def add_ability(self, ability):
         ''' Add ability to abilities list '''
         self.abilities.append(ability)
-        print("Ability Engaged")
+        print("Ability Engaged:")
         
     def add_weapon(self, weapon):
         '''Add weapon to self.abilities'''
@@ -115,14 +115,14 @@ class Hero:
         # This means that self.abilities will be a list of
         # abilities and weapons.
         self.weapons.append(weapon)
-        print("Weapon Equipped")
+        print("Weapon Equipped:")
         
     def add_armour(self, armour):
         '''Add armour to self.armours
             Armour: Armour Object
         '''
         self.armours.append(armour)
-        print("Armour Equipped")
+        print("Armour Equipped:")
         
     def add_kill(self, num_kills):
         self.kills += num_kills
@@ -139,9 +139,11 @@ class Hero:
         total_damage = 0
         # loop through all of our hero's abilities
         for ability in self.abilities:
-            print(ability)
+            print(ability.name)
             # add the damage of each attack to our running total
             total_damage += ability.attack()
+        for weapon in self.weapons:
+            print(weapon.name)
             print(f"Total Damage: {total_damage}")
         return int(total_damage)
         
@@ -512,14 +514,9 @@ class Arena:
         # else:
         #     kd1 = team_one_kills / team_one_deaths
         #     kd2 = team_two_kills / team_two_deaths
-        print("{} Kill/Deaths:{}".format(self.team_one.name, kd1))
-        print("{} Kill/Deaths:{}".format(self.team_two.name, kd2))
-        if team_one_deaths == len(self.team_one.heroes) and team_two_deaths < len(self.team_two.heroes):
-            print(f"{self.team_two} wins!")
-        elif team_two_deaths == len (self.team_two.heroes)and team_one_deaths < len(self.team_one.heroes):
-            print(f"{self.team_one} wins!")
-        else:
-            print("It's a draw!")
+        # print("{} Kill/Deaths:{}".format(self.team_one.name, kd1))
+        # print("{} Kill/Deaths:{}".format(self.team_two.name, kd2))
+        
                 
         for hero in self.team_one.heroes:
             team_one_kills += hero.kills
@@ -535,7 +532,14 @@ class Arena:
             team_2_kd = team_two_kills / team_two_deaths
         except ZeroDivisionError:
             team_2_kd = team_two_kills
-        
+            
+        if team_one_deaths == len(self.team_one.heroes) and team_two_deaths < len(self.team_two.heroes):
+            print(f"Team {self.team_two.name} wins!")
+        elif team_two_deaths == len (self.team_two.heroes)and team_one_deaths < len(self.team_one.heroes):
+            print(f"Team {self.team_one.name} wins!")
+        else:
+            print("It's a draw!")
+            
         print("Team 1's KD is: {}".format(str(team_1_kd)))
         print("Team 2's KD is: {}".format(str(team_2_kd)))
             
@@ -563,7 +567,7 @@ class Arena:
         # TODO for each team, calculate the total kills and deaths for each hero,
         # find the average kills and deaths by dividing the totals by the number of heroes.
         # finally, divide the average number of kills by the average number of deaths for each team
-        pass
+        # pass
 
 if __name__ == "__main__":
     game_is_running = True
@@ -585,11 +589,14 @@ if __name__ == "__main__":
             game_is_running = False
 
         else:
-            recreate_teams = validator(["Yes","yes","y", "Y", "No", "no", "n", "N"],"Do you want new teams? (Y/N)")
-            if recreate_teams == "y" or "Y" or "Yes" or "yes":
+            print("Enter else")
+            new_teams = validator(["Yes","yes","y", "Y", "No", "no", "n", "N"],"Do you want new teams? (Y/N)")
+            if new_teams == "y" or new_teams == "Y" or new_teams == "Yes" or new_teams == "yes":
+                print("Building new teams")
                 arena.build_team_one()
                 arena.build_team_two()
             else:
+                print("enter revive")
                 # Revive heroes to play again
                 # call function that resets all heroes to original value health
                 arena.team_one.revive_heroes()
